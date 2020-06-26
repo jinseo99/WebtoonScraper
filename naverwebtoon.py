@@ -3,6 +3,10 @@ from bs4 import BeautifulSoup
 from myRetrieve import retrieve
 import os
 import time
+from Unbuffered import Unbuffered
+import sys
+sys.stdout = Unbuffered(sys.stdout)
+
 
 class naverwebtoon:
     def __init__(self, main_url, sub_url, comic_list, folder):
@@ -92,6 +96,7 @@ class naverwebtoon:
 
 
 if __name__ == '__main__':
+    
     main_url = r"https://comic.naver.com/webtoon/weekday.nhn"
     sub_url = r"https://comic.naver.com"
     comic_list = [r'신의 탑', r'윈든브레이커', r'니편내편', r'여신강림', r'랜덤체팅의 그녀', r'제로게임', r'연애혁명', r'외모지상주의', r'유미의 세포들', r'맘마미안']
