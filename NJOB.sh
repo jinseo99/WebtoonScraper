@@ -10,6 +10,6 @@ source ~/env/bin/activate
 echo "Start of Script"
 
 
-python test.py
+python naverwebtoon.py
 
 echo "End of Script"
