@@ -50,13 +50,12 @@ class naverwebtoon:
             retrieve(req, save_path)
             i+=1
 
-
     def getLastPageIndex(self):
         url = self.comic_url + str(10000)
         content = self.content(url)
         results = content.find("strong", class_="page")
         index = results.contents[0].text
-        return int(index) + 1
+        return int(index)
 
     def getComic(self, comic):
         content = self.content(self.main_url)
@@ -70,15 +69,33 @@ class naverwebtoon:
         print('retrieving comic', comic)
         return True
 
+    def getLatestPageIndex(self, last_episode = 0):
+        index = self.getLastPageIndex()
+        episode_list =self.getEpisodeList(self.comic_url + str(10000))
+        lastest_episode = 10*(index-1) + len(episode_list)
+        try:
+            for episode in os.listdir(self.comic_folder):
+                try:
+                    episode = int(episode)
+                    if episode > last_episode:
+                        last_episode = episode
+                except:
+                    pass
+        except:
+            pass
+        dif = lastest_episode - last_episode
+        page_ind = int(dif/10) + 1
+        return page_ind
+
     def download(self):
         for comic in comic_list:
+
             if not self.getComic(comic):
                 print("no comic", comic)
                 continue
-
-            page_ind = self.getLastPageIndex()  
+            page_ind = self.getLatestPageIndex()
             episode_ind = 1
-            for i in reversed(range(1, page_ind)):
+            for i in reversed(range(1, page_ind+1)):
                 page_url = self.comic_url + str(i)
                 episode_list = self.getEpisodeList(page_url)
 
@@ -99,7 +116,8 @@ if __name__ == '__main__':
     
     main_url = r"https://comic.naver.com/webtoon/weekday.nhn"
     sub_url = r"https://comic.naver.com"
-    comic_list = [r'신의 탑', r'윈드브레이커', r'니편내편', r'여신강림', r'랜덤채팅의 그녀', r'제로게임', r'연애혁명', r'외모지상주의', r'유미의 세포들', r'맘마미안']
+    #comic_list = [r'신의 탑', r'윈드브레이커', r'니편내편', r'여신강림', r'랜덤채팅의 그녀!', r'제로게임', r'갓물주', r'연애혁명', r'외모지상주의', r'유미의 세포들', r'맘마미안']
+    comic_list = [r'랜덤채팅의 그녀!', r'갓물주']
     folder = 'comics/'
     nw = naverwebtoon(main_url, sub_url, comic_list, folder)
     nw.download()

@@ -1,6 +1,5 @@
-num_list = [47533927, 47533929, 47533931, 47533933, 47533935, 47533937, 47533939, 47533941, 47533943]
+import os
 
-cant_list = [47533945, 47533948, 47533950]
 
-if "lUt9i42FY2I4ggejDuJPPXMt5QR0LkfX" == "lUt9i42FY2I4ggejDuJPPXMt5QR0LkfX":
-    print('here')
+for item in os.listdir('comics/a여신강림'):
+    print(item)
